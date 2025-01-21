@@ -1,0 +1,27 @@
+*&---------------------------------------------------------------------*
+*& Report zha_exercise_ITAB
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+report zha_exercise_ITAB.
+
+include zha_exercise_02_klass.
+
+data: example_itab  type lcl_itab_basics=>itab_data_table,
+      example_itab2 type lcl_itab_basics=>itab_data_table.
+" Sınıfların PUBLIC bölgesine böyle erişilir. !!!!!!
+
+start-of-selection.
+
+  data(lcl_klass) = new lcl_itab_basics(  ).
+  example_itab = lcl_klass->fill_itab_table(  ).
+*  cl_demo_output=>display( example_itab ).
+*  lcl_klass->show( example_itab ).
+
+  example_itab2 = value #( ( group = 'A' number = 19 descr = 'Group A-4') ).
+  example_itab = lcl_klass->add_to_itab_table( Bu_data = example_itab2 Buna_data = example_itab ).
+
+  example_itab = lcl_klass->sort_itab_table( example_itab ).
+  lcl_klass->show( example_itab ).
+
+  write |\nNumber 6'in satır numarası: { lcl_klass->search_itab_table( example_itab ) } |.
